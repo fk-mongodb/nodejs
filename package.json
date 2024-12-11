@@ -13,7 +13,9 @@
     "insert_multiple": "node 2_ops/insert_multiple.js",
     "update_one": "node 2_ops/update_one.js",
     "update_multiple": "node 2_ops/update_multiple.js",
-    "replace_one": "node 2_ops/replace_one.js"
+    "replace_one": "node 2_ops/replace_one.js",
+    "find_one": "node 3_query/find_one.js",
+    "find_multiple": "node 3_query/find_multiple.js"
   },
   "author": "Fernando Karnagi <fkarnagi@gmail.com>",
   "license": "ISC",
