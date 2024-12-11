@@ -1,8 +1,8 @@
 /**
- * @fileoverview Demonstrate Basic Insert operation to MongoDB Atlas Cluster
+ * @fileoverview Demonstrate Basic delete all operation to MongoDB Atlas Cluster
  * 
  * @description
- * Demonstrate Basic Insert operation to MongoDB Atlas Cluster
+ * Demonstrate Basic delete all operation to MongoDB Atlas Cluster
  * 
  * @author Fernando Karnagi <fkarnagi@gmail.com>
  * @version 1.0.0
@@ -32,7 +32,7 @@ async function main() {
         await client.connect();
 
         // Make the appropriate DB calls
-        await crud(client);
+        await deleteAll(client);
 
     } catch (e) {
         console.error(e);
@@ -40,29 +40,13 @@ async function main() {
         await client.close();
     }
 }
-const getRandomInteger = (min, max) => {
-    min = Math.ceil(min)
-    max = Math.floor(max)
 
-    return Math.floor(Math.random() * (max - min)) + min
-}
-
-async function crud(client) {
+async function deleteAll(client) {
     const db = await client.db("sensors");
     console.log(`Connecting to Sensor DB`);
     const devices = db.collection("devices");
-
-    for (let i = 0; i < count; i++) {
-        const currentTs = moment().format("YYYYMMDDHHmmSS-" + i)
-        const device = {
-            code: `T${currentTs}`,
-            description: `Sensor T${currentTs}`,
-            type: types[getRandomInteger(0, 3)],
-            price: getRandomInteger(10, 101)
-        }
-        const result = await devices.insertOne(device);
-        console.log(`Device record has been inserted with _id: ${result.insertedId}`)
-    }
+    const result = await devices.deleteMany({});
+    console.log(result)
 };
 
 main().catch(console.error);
