@@ -1,8 +1,8 @@
 /**
- * @fileoverview Demonstrate update one operation to MongoDB Atlas Cluster
+ * @fileoverview Demonstrate update multiple operation to MongoDB Atlas Cluster
  * 
  * @description
- * Demonstrate Basic update one operation to MongoDB Atlas Cluster
+ * Demonstrate Basic update multiple operation to MongoDB Atlas Cluster
  * 
  * @author Fernando Karnagi <fkarnagi@gmail.com>
  * @version 1.0.0

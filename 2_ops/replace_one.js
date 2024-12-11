@@ -1,8 +1,8 @@
 /**
- * @fileoverview Demonstrate update one operation to MongoDB Atlas Cluster
+ * @fileoverview Demonstrate replace one operation to MongoDB Atlas Cluster
  * 
  * @description
- * Demonstrate Basic update one operation to MongoDB Atlas Cluster
+ * Demonstrate Basic replace  one operation to MongoDB Atlas Cluster
  * 
  * @author Fernando Karnagi <fkarnagi@gmail.com>
  * @version 1.0.0
@@ -61,24 +61,13 @@ async function crud(client) {
     console.log(`Device record has been inserted with _id: ${resultInsert.insertedId}`)
 
     const filter = { _id: resultInsert.insertedId };
-    const updateDoc = [{
-        $set: {
-            ts: currentTs,
-            type2: "$type"
-        }
-    }, {
-        $set: {
-            ts2: currentTs,
-            type3: { $concat: ["$type2", "-2"] }
-        }
-    }, {
-        $set: {
-            ts3: currentTs,
-            type4: { $concat: ["$type3", "-3"] }
-        }
-    }];
-    const options = { upsert: true };
-    const resultUpdate = await devices.updateOne(filter, updateDoc, options);
+    const replacementDoc = {
+        code: `T${currentTs}-replace`,
+        description: `Sensor T${currentTs}-replace`,
+        type: types[getRandomInteger(0, 3)],
+        price: getRandomInteger(10, 101)
+    };
+    const resultUpdate = await devices.replaceOne(filter, replacementDoc);
     console.log(resultUpdate);
 };
 
