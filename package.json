@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "connect": "node crud/connect.js"
+    "connect": "node 1_basic/connect.js",
+    "insert": "node 2_ops/insert.js"
   },
   "author": "Fernando Karnagi <fkarnagi@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^6.12.0"
+    "moment": "^2.30.1",
+    "mongodb": "^6.12.0",
+    "random-js": "^2.1.0"
   }
 }

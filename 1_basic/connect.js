@@ -9,7 +9,7 @@
  * @date 11-Dec-2024
  * 
  * @usage
- * cmd/connect.js
+ * cmd/1_connect.js
  */
 
 const { MongoClient } = require('mongodb');
