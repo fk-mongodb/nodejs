@@ -9,6 +9,7 @@
     "insert": "node 2_ops/insert.js",
     "delete_all": "node 2_ops/delete_all.js",
     "delete_one": "node 2_ops/delete_one.js",
+    "delete_multiple": "node 2_ops/delete_multiple.js",
     "insert_multiple": "node 2_ops/insert_multiple.js"
   },
   "author": "Fernando Karnagi <fkarnagi@gmail.com>",
