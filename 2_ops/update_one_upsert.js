@@ -1,8 +1,8 @@
 /**
- * @fileoverview Demonstrate replace one operation to MongoDB Atlas Cluster
+ * @fileoverview Demonstrate update one with upsert operation to MongoDB Atlas Cluster
  * 
  * @description
- * Demonstrate Basic replace  one operation to MongoDB Atlas Cluster
+ * Demonstrate Basic update one operation to MongoDB Atlas Cluster
  * 
  * @author Fernando Karnagi <fkarnagi@gmail.com>
  * @version 1.0.0
@@ -55,30 +55,30 @@ async function crud(client) {
         code: `T${currentTs}`,
         description: `Sensor T${currentTs}`,
         type: types[getRandomInteger(0, 3)],
-        price: getRandomInteger(10, 101),
-        category: 'good'
+        price: getRandomInteger(10, 101)
     }
     const resultInsert = await devices.insertOne(device);
     console.log(`Device record has been inserted with _id: ${resultInsert.insertedId}`)
 
-    const device1 = {
-        code: `T${currentTs}`,
-        description: `Sensor T${currentTs}`,
-        type: types[getRandomInteger(0, 3)],
-        price: getRandomInteger(10, 101),
-        category: 'good'
-    }
-    const resultInsert1 = await devices.insertOne(device1);
-    console.log(`Another device record has been inserted with _id: ${resultInsert1.insertedId}`)
-
-    const filter = { category: 'good' };
-    // const filter = { _id: resultInsert.insertedId };
-
-    const replacementDoc = {
-        anotherDocCode: 'NEWDOC',
-        category: 'bad'
-    };
-    const resultUpdate = await devices.replaceOne(filter, replacementDoc);
+    const filter = { falseField: "x" };
+    const updateDoc = [{
+        $set: {
+            ts: currentTs,
+            type2: "$type"
+        }
+    }, {
+        $set: {
+            ts2: currentTs,
+            type3: { $concat: ["$type2", "-2"] }
+        }
+    }, {
+        $set: {
+            ts3: currentTs,
+            type4: { $concat: ["$type3", "-3"] }
+        }
+    }];
+    const options = { upsert: true };
+    const resultUpdate = await devices.updateOne(filter, updateDoc, options);
     console.log(resultUpdate);
 };
 

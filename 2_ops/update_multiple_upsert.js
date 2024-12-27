@@ -1,8 +1,8 @@
 /**
- * @fileoverview Demonstrate replace one operation to MongoDB Atlas Cluster
+ * @fileoverview Demonstrate update multiple with upsert operation to MongoDB Atlas Cluster
  * 
  * @description
- * Demonstrate Basic replace  one operation to MongoDB Atlas Cluster
+ * Demonstrate Basic update multiple operation to MongoDB Atlas Cluster
  * 
  * @author Fernando Karnagi <fkarnagi@gmail.com>
  * @version 1.0.0
@@ -51,34 +51,32 @@ async function crud(client) {
     console.log(`Connecting to Sensor DB`);
     const devices = db.collection("devices");
     const currentTs = moment().format("YYYYMMDDHHmmSS")
-    const device = {
-        code: `T${currentTs}`,
-        description: `Sensor T${currentTs}`,
-        type: types[getRandomInteger(0, 3)],
-        price: getRandomInteger(10, 101),
-        category: 'good'
-    }
-    const resultInsert = await devices.insertOne(device);
-    console.log(`Device record has been inserted with _id: ${resultInsert.insertedId}`)
-
     const device1 = {
         code: `T${currentTs}`,
         description: `Sensor T${currentTs}`,
-        type: types[getRandomInteger(0, 3)],
-        price: getRandomInteger(10, 101),
-        category: 'good'
+        type: 'DISTANCE',
+        price: getRandomInteger(10, 101)
+    }
+    const device2 = {
+        code: `T${currentTs}`,
+        description: `Sensor T${currentTs}`,
+        type: 'DISTANCE',
+        price: getRandomInteger(10, 101)
     }
     const resultInsert1 = await devices.insertOne(device1);
-    console.log(`Another device record has been inserted with _id: ${resultInsert1.insertedId}`)
+    const resultInsert2 = await devices.insertOne(device2);
 
-    const filter = { category: 'good' };
-    // const filter = { _id: resultInsert.insertedId };
+    console.log(`Device record has been inserted with _id: ${resultInsert1.insertedId}`);
+    console.log(`Device record has been inserted with _id: ${resultInsert2.insertedId}`)
 
-    const replacementDoc = {
-        anotherDocCode: 'NEWDOC',
-        category: 'bad'
-    };
-    const resultUpdate = await devices.replaceOne(filter, replacementDoc);
+    const filter = { missingField: 'XX' };
+    const updateDoc = [{
+        $set: {
+            ts: currentTs
+        }
+    }];
+    const options = { upsert: true };
+    const resultUpdate = await devices.updateMany(filter, updateDoc, options);
     console.log(resultUpdate);
 };
 
