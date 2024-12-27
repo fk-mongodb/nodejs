@@ -61,7 +61,8 @@ async function crud(client) {
             code: `T${currentTs}`,
             description: `Sensor T${currentTs}`,
             type: types[getRandomInteger(0, 3)],
-            price: getRandomInteger(10, 101)
+            price: getRandomInteger(10, 101),
+            unit: getRandomInteger(10, 101)
         }
         data.push(device)
 
@@ -73,14 +74,32 @@ async function crud(client) {
     const query = {
         price: {
             $lt: 50
-        }
+        },
+        $or: [
+            {
+                type: {
+                    $in: ["COLOR", "DISTANCE"]
+                },
+                unit: {
+                    $gte: 50
+                }
+            },
+            {
+                type: {
+                    $in: ["TEMPARATURE"]
+                },
+                unit: {
+                    $lte: 50
+                }
+            }
+        ]
     }
 
     const options = {
         // Sort matched documents in descending order by rating
         sort: { "type": -1 },
         // Include only the `title` and `imdb` fields in the returned document
-        projection: { _id: 0, code: 1, description: 1, price: 1, type: 1 },
+        projection: { _id: 0, code: 1, description: 1, price: 1, type: 1, unit: 1 },
     };
 
     const cursor = await devices.find(query, options);
