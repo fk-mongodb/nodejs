@@ -58,28 +58,7 @@ async function crud(client) {
             }
         },
         {
-            $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
-        },
-        {
-            $match: {
-                totalQuantity: {
-                    $gte: 10
-                }
-            }
-        },
-        {
-            $sort: {
-                totalQuantity: -1
-            }
-        },
-        {
-            $project: {
-                totalQuantity: 1,
-                newQty: "$totalQuantity"
-            }
-        },
-        {
-            $limit: 1
+            $out: "order_filtered"
         }
     ]
     const result = await orders.aggregate(aggregrationRule).toArray();

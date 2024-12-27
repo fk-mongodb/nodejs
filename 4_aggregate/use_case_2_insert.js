@@ -40,50 +40,20 @@ async function main() {
 async function crud(client) {
     const db = await client.db("food");
     console.log(`Connecting to Food DB`);
-    const orders = db.collection("orders");
-
-    const aggregrationRule = [
-        {
-            $match: {
-                size: {
-                    $in: ["medium", "large"]
-                }
-            }
-        },
-        {
-            $match: {
-                price: {
-                    $lt: 19
-                }
-            }
-        },
-        {
-            $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
-        },
-        {
-            $match: {
-                totalQuantity: {
-                    $gte: 10
-                }
-            }
-        },
-        {
-            $sort: {
-                totalQuantity: -1
-            }
-        },
-        {
-            $project: {
-                totalQuantity: 1,
-                newQty: "$totalQuantity"
-            }
-        },
-        {
-            $limit: 1
-        }
-    ]
-    const result = await orders.aggregate(aggregrationRule).toArray();
-    console.log(result)
+    await db.collection("orders").insertMany([
+        { "_id": 1, "item": "almonds", "price": 12, "quantity": 2 },
+        { "_id": 2, "item": "pecans", "price": 20, "quantity": 1 },
+        { "_id": 3 }
+    ]);
+    await db.collection("inventory").insertMany([
+        { "_id": 1, "sku": "almonds", "description": "product 1", "instock": 120 },
+        { "_id": 2, "sku": "bread", "description": "product 2", "instock": 80 },
+        { "_id": 3, "sku": "cashews", "description": "product 3", "instock": 60 },
+        { "_id": 4, "sku": "pecans", "description": "product 4", "instock": 70 },
+        { "_id": 5, "sku": null, "description": "Incomplete" },
+        { "_id": 6 }
+    ]);
 };
+
 
 main().catch(console.error);

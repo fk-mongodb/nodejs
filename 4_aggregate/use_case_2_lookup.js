@@ -40,50 +40,22 @@ async function main() {
 async function crud(client) {
     const db = await client.db("food");
     console.log(`Connecting to Food DB`);
-    const orders = db.collection("orders");
 
     const aggregrationRule = [
         {
-            $match: {
-                size: {
-                    $in: ["medium", "large"]
-                }
+            $lookup:
+            {
+                from: "inventory",
+                localField: "item",
+                foreignField: "sku",
+                as: "inventory_docs"
             }
-        },
-        {
-            $match: {
-                price: {
-                    $lt: 19
-                }
-            }
-        },
-        {
-            $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
-        },
-        {
-            $match: {
-                totalQuantity: {
-                    $gte: 10
-                }
-            }
-        },
-        {
-            $sort: {
-                totalQuantity: -1
-            }
-        },
-        {
-            $project: {
-                totalQuantity: 1,
-                newQty: "$totalQuantity"
-            }
-        },
-        {
-            $limit: 1
         }
     ]
-    const result = await orders.aggregate(aggregrationRule).toArray();
-    console.log(result)
+    const result = await db.collection("orders").aggregate(aggregrationRule).toArray();
+    console.log(JSON.stringify(result))
+
 };
+
 
 main().catch(console.error);

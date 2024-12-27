@@ -24,7 +24,10 @@
     "bulk_write": "node 2_ops/bulk_write.js",
     "elem_match": "node 3_query/elem_match.js",
     "aggregate_use_case_1_insert": "node 4_aggregate/use_case_1_insert.js",
-    "aggregate_use_case_1_query": "node 4_aggregate/use_case_1_query.js"
+    "aggregate_use_case_1_query": "node 4_aggregate/use_case_1_query.js",
+    "aggregate_use_case_1_out": "node 4_aggregate/use_case_1_out.js",
+    "aggregate_use_case_2_insert": "node 4_aggregate/use_case_2_insert.js",
+    "aggregate_use_case_2_lookup": "node 4_aggregate/use_case_2_lookup.js"
   },
   "author": "Fernando Karnagi <fkarnagi@gmail.com>",
   "license": "ISC",
