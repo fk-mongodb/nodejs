@@ -57,10 +57,22 @@ async function crud(client) {
         type: types[getRandomInteger(0, 3)],
         price: getRandomInteger(10, 101)
     }
+    const device1 = {
+        code: `T${currentTs}`,
+        description: `Sensor T${currentTs}`,
+        type: types[getRandomInteger(0, 3)],
+        price: getRandomInteger(10, 101)
+    }
     const resultInsert = await devices.insertOne(device);
+    const resultInsert2 = await devices.insertOne(device1);
     console.log(`Device record has been inserted with _id: ${resultInsert.insertedId}`)
 
-    const resultDelete = await devices.deleteOne({ _id: resultInsert.insertedId });
+    // const resultDelete = await devices.deleteOne({ _id: resultInsert.insertedId });
+    const resultDelete = await devices.deleteOne({
+        price: {
+            $gt: 50
+        }
+    });
     console.log(resultDelete);
 };
 
