@@ -16,6 +16,7 @@ const { MongoClient } = require('mongodb');
 const moment = require('moment');
 
 const types = ['DISTANCE', 'TEMPARATURE', 'COLOR'];
+const countries = ['SG', 'ID', 'MY'];
 const count = 100;
 
 async function main() {
@@ -61,8 +62,17 @@ async function crud(client) {
             code: `T${currentTs}`,
             description: `Sensor T${currentTs}`,
             type: types[getRandomInteger(0, 3)],
+            type2: types[getRandomInteger(0, 3)],
             price: getRandomInteger(10, 101),
-            unit: getRandomInteger(10, 101)
+            unit: getRandomInteger(10, 101),
+            manufacturer: {
+                country: countries[getRandomInteger(0, 3)],
+                year: getRandomInteger(2000, 2024),
+            },
+            owner: {
+                country: countries[getRandomInteger(0, 3)],
+                year: getRandomInteger(2000, 2024),
+            }
         }
         data.push(device)
 
@@ -72,26 +82,39 @@ async function crud(client) {
     console.log(`Device records have been inserted`);
 
     const query = {
-        price: {
-            $lt: 50
-        },
-        $or: [
-            {
-                type: {
-                    $in: ["COLOR", "DISTANCE"]
-                },
-                unit: {
-                    $gte: 50
-                }
-            },
-            {
-                type: {
-                    $in: ["TEMPARATURE"]
-                },
-                unit: {
-                    $lte: 50
-                }
+        $and: [{
+            price: {
+                $lt: 50
             }
+        },
+        {
+            "manufacturer.country": {
+                $in: ["ID", "SG"]
+            }
+        },
+        // "type2": {
+        //     $eq: "$type"
+        // },
+        {
+            $or: [
+                {
+                    type: {
+                        $in: ["COLOR", "DISTANCE"]
+                    },
+                    unit: {
+                        $gte: 50
+                    }
+                },
+                {
+                    type: {
+                        $in: ["TEMPARATURE"]
+                    },
+                    unit: {
+                        $lte: 50
+                    }
+                }
+            ]
+        }
         ]
     }
 
@@ -99,7 +122,7 @@ async function crud(client) {
         // Sort matched documents in descending order by rating
         sort: { "type": -1 },
         // Include only the `title` and `imdb` fields in the returned document
-        projection: { _id: 0, code: 1, description: 1, price: 1, type: 1, unit: 1 },
+        projection: { _id: 0, code: 1, description: 1, price: 1, type: 1, type2: 1, unit: 1, "manufacturer.country": 1, owner: 1 },
     };
 
     const cursor = await devices.find(query, options);

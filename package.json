@@ -21,7 +21,8 @@
     "update_multiple_upsert": "node 2_ops/update_multiple_upsert.js",
     "find_one_and_update": "node 2_ops/find_one_and_update.js",
     "find_one_and_delete": "node 2_ops/find_one_and_delete.js",
-    "bulk_write": "node 2_ops/bulk_write.js"
+    "bulk_write": "node 2_ops/bulk_write.js",
+    "elem_match": "node 3_query/elem_match.js"
   },
   "author": "Fernando Karnagi <fkarnagi@gmail.com>",
   "license": "ISC",
