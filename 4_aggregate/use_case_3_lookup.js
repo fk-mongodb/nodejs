@@ -43,26 +43,17 @@ async function crud(client) {
 
     const aggregrationRule = [
         {
-            $lookup:
-            {
-                from: "inventory",
-                localField: "item",
-                foreignField: "sku",
-                as: "inventory_docs"
-            },
-        },
-        {
-            $project: {
-                item: 1, price: 1, quantity: 1,
-                item_description: "$inventory_docs.description",
-                item_stock: "$inventory_docs.instock"
-            }
-        },
-        {
-            $match: {
-                item: {
-                    $exists: true
-                }
+            $lookup: {
+                from: "restaurants",
+                localField: "restaurant_name",
+                foreignField: "name",
+                let: { orders_drink: "$drink" },
+                pipeline: [{
+                    $match: {
+                        $expr: { $in: ["$$orders_drink", "$beverages"] }
+                    }
+                }],
+                as: "matches"
             }
         }
     ]

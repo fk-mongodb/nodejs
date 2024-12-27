@@ -27,7 +27,9 @@
     "aggregate_use_case_1_query": "node 4_aggregate/use_case_1_query.js",
     "aggregate_use_case_1_out": "node 4_aggregate/use_case_1_out.js",
     "aggregate_use_case_2_insert": "node 4_aggregate/use_case_2_insert.js",
-    "aggregate_use_case_2_lookup": "node 4_aggregate/use_case_2_lookup.js"
+    "aggregate_use_case_2_lookup": "node 4_aggregate/use_case_2_lookup.js",
+    "aggregate_use_case_3_insert": "node 4_aggregate/use_case_3_insert.js",
+    "aggregate_use_case_3_lookup": "node 4_aggregate/use_case_3_lookup.js"
   },
   "author": "Fernando Karnagi <fkarnagi@gmail.com>",
   "license": "ISC",

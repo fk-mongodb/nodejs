@@ -40,35 +40,39 @@ async function main() {
 async function crud(client) {
     const db = await client.db("food");
     console.log(`Connecting to Food DB`);
-
-    const aggregrationRule = [
+    await db.collection("orders").insertMany([
         {
-            $lookup:
-            {
-                from: "inventory",
-                localField: "item",
-                foreignField: "sku",
-                as: "inventory_docs"
-            },
+            _id: 1,
+            item: "filet",
+            restaurant_name: "American Steak House"
         },
         {
-            $project: {
-                item: 1, price: 1, quantity: 1,
-                item_description: "$inventory_docs.description",
-                item_stock: "$inventory_docs.instock"
-            }
+            _id: 2,
+            item: "cheese pizza",
+            restaurant_name: "Honest John Pizza",
+            drink: "lemonade"
         },
         {
-            $match: {
-                item: {
-                    $exists: true
-                }
-            }
+            _id: 3,
+            item: "cheese pizza",
+            restaurant_name: "Honest John Pizza",
+            drink: "soda"
         }
-    ]
-    const result = await db.collection("orders").aggregate(aggregrationRule).toArray();
-    console.log(JSON.stringify(result))
-
+    ]);
+    await db.collection("restaurants").insertMany([
+        {
+            _id: 1,
+            name: "American Steak House",
+            food: ["filet", "sirloin"],
+            beverages: ["beer", "wine"]
+        },
+        {
+            _id: 2,
+            name: "Honest John Pizza",
+            food: ["cheese pizza", "pepperoni pizza"],
+            beverages: ["soda"]
+        }
+    ]);
 };
 
 
