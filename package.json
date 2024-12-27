@@ -19,7 +19,8 @@
     "find_multiple_to_array": "node 3_query/find_multiple_to_array.js",
     "update_one_upsert": "node 2_ops/update_one_upsert.js",
     "update_multiple_upsert": "node 2_ops/update_multiple_upsert.js",
-    "find_one_and_update": "node 2_ops/find_one_and_update.js"
+    "find_one_and_update": "node 2_ops/find_one_and_update.js",
+    "find_one_and_delete": "node 2_ops/find_one_and_delete.js"
   },
   "author": "Fernando Karnagi <fkarnagi@gmail.com>",
   "license": "ISC",
