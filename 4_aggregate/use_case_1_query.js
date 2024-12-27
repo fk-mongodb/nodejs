@@ -1,8 +1,8 @@
 /**
- * @fileoverview Demonstrate Basic Insert operation to MongoDB Atlas Cluster
+ * @fileoverview Demonstrate simple use case for aggregation pipeline to MongoDB Atlas Cluster
  * 
  * @description
- * Demonstrate Basic Insert operation to MongoDB Atlas Cluster
+ * Demonstrate simple use case for aggregation pipeline to MongoDB Atlas Cluster
  * 
  * @author Fernando Karnagi <fkarnagi@gmail.com>
  * @version 1.0.0
@@ -16,6 +16,7 @@ const { MongoClient } = require('mongodb');
 const moment = require('moment');
 
 const types = ['DISTANCE', 'TEMPARATURE', 'COLOR'];
+const countries = ['SG', 'ID', 'MY'];
 const count = 100;
 
 async function main() {
@@ -40,29 +41,25 @@ async function main() {
         await client.close();
     }
 }
-const getRandomInteger = (min, max) => {
-    min = Math.ceil(min)
-    max = Math.floor(max)
-
-    return Math.floor(Math.random() * (max - min)) + min
-}
 
 async function crud(client) {
-    const db = await client.db("sensors");
-    console.log(`Connecting to Sensor DB`);
-    const devices = db.collection("devices");
+    const db = await client.db("food");
+    console.log(`Connecting to Food DB`);
+    const orders = db.collection("orders");
 
-    for (let i = 0; i < count; i++) {
-        const currentTs = moment().format("YYYYMMDDHHmmSS-" + i)
-        const device = {
-            "code": `T${currentTs}`,
-            "description": `Sensor T${currentTs}`,
-            type: types[getRandomInteger(0, 3)],
-            price: getRandomInteger(10, 101)
+    const aggregrationRule = [
+        // Stage 1: Filter pizza order documents by pizza size
+        {
+            $match: { size: "medium" }
+        },
+        // Stage 2: Group remaining documents by pizza name and calculate total quantity
+        {
+            $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
         }
-        const result = await devices.insertOne(device);
-        console.log(`Device record has been inserted with _id: ${result.insertedId}`)
-    }
+    ]
+    const result = await orders.aggregate(aggregrationRule).toArray();
+    console.log(result)
 };
+
 
 main().catch(console.error);
