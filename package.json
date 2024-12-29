@@ -31,13 +31,16 @@
     "aggregate_use_case_3_insert": "node 4_aggregate/use_case_3_insert.js",
     "aggregate_use_case_3_lookup": "node 4_aggregate/use_case_3_lookup.js",
     "create_index": "node 5_index/create_index.js",
-    "insert_record_after_index": "node 5_index/insert_record_after_index.js"
+    "insert_record_after_index": "node 5_index/insert_record_after_index.js",
+    "query_index": "node 5_index/query_index.js",
+    "delete_index": "node 5_index/delete_index.js"
   },
   "author": "Fernando Karnagi <fkarnagi@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "moment": "^2.30.1",
     "mongodb": "^6.12.0",
+    "nodejs": "file:",
     "random-js": "^2.1.0"
   }
 }

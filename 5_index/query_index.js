@@ -41,8 +41,7 @@ async function crud(client) {
   console.log(`Connecting to Education DB`);
   const students = db.collection("students");
 
-  const result = await students.createIndex({ gpa: 1 }, { name: "gpa_index" }); 
-  console.log(`Student collections index on gpa ascending has been successfully created`);
+  const result = await students.indexes(); 
   console.log(result);
 }
 
